@@ -2,7 +2,7 @@ const express = require("express");
 
 const app = express();
 
-const BOT_TOKEN = "ТВОЙ_ТОКЕН_СЮДА";
+const BOT_TOKEN = "8999239956:AAEziSjjdGG1VLLjHOzncq9gIys3CLGLkv0";
 const CHAT_ID = "5195397602";
 
 app.get("/", (req, res) => {

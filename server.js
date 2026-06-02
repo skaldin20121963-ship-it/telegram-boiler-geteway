@@ -10,32 +10,30 @@ app.get("/", (req, res) => {
 });
 
 app.get("/send", async (req, res) => {
-
   const text = req.query.text || "empty";
 
   try {
-
     const url =
       `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage` +
       `?chat_id=${CHAT_ID}` +
       `&text=${encodeURIComponent(text)}`;
 
     const response = await fetch(url);
-
     const result = await response.json();
 
-    console.log(result);
+    console.log("TELEGRAM RESULT:", result);
 
-    res.send("Telegram OK");
+    res.setHeader("Content-Type", "application/json");
+    res.send(JSON.stringify(result));
 
   } catch (err) {
+    console.log("SERVER ERROR:", err);
 
-    console.log(err);
-
-    res.status(500).send("Telegram ERROR");
-
+    res.status(500).json({
+      ok: false,
+      error: String(err)
+    });
   }
-
 });
 
 const PORT = process.env.PORT || 3000;

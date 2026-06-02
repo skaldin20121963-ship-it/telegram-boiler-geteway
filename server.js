@@ -2,14 +2,40 @@ const express = require("express");
 
 const app = express();
 
+const BOT_TOKEN = "ТВОЙ_ТОКЕН_СЮДА";
+const CHAT_ID = "5195397602";
+
 app.get("/", (req, res) => {
   res.send("Boiler Gateway OK");
 });
 
-app.get("/send", (req, res) => {
+app.get("/send", async (req, res) => {
+
   const text = req.query.text || "empty";
-  console.log("MESSAGE:", text);
-  res.send("OK: " + text);
+
+  try {
+
+    const url =
+      `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage` +
+      `?chat_id=${CHAT_ID}` +
+      `&text=${encodeURIComponent(text)}`;
+
+    const response = await fetch(url);
+
+    const result = await response.json();
+
+    console.log(result);
+
+    res.send("Telegram OK");
+
+  } catch (err) {
+
+    console.log(err);
+
+    res.status(500).send("Telegram ERROR");
+
+  }
+
 });
 
 const PORT = process.env.PORT || 3000;
